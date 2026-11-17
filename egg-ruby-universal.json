@@ -1,0 +1,51 @@
+{
+    "_comment": "KizzuRyuichi Labs - Ruby on Rails Egg",
+    "meta": {
+        "version": "PTDL_v1",
+        "update_url": null
+    },
+    "exported_at": "2026-11-18T00:00:00+07:00",
+    "name": "Ruby on Rails - KizzuRyuichi",
+    "author": "KizzuRyuichi",
+    "description": "Egg Ruby on Rails untuk KizzuRyuichi Labs, support bundle install dan rails server.",
+    "features": null,
+    "images": [
+        "ruby:3.3",
+        "ruby:3.2",
+        "ruby:3.1"
+    ],
+    "startup": "bundle install && bundle exec rails server -b 0.0.0.0 -p {{SERVER_PORT}}",
+    "config": {
+        "files": "{}",
+        "startup": "{\r\n    \"done\": \"Listening on\",\r\n    \"userInteraction\": []\r\n}",
+        "logs": "{\r\n    \"custom\": false,\r\n    \"location\": \"logs/latest.log\"\r\n}",
+        "stop": "^C"
+    },
+    "scripts": {
+        "installation": {
+            "script": "#!/bin/ash\napt-get update\napt-get install -y nodejs yarn sqlite3 libsqlite3-dev build-essential\ncd /mnt/server\nif [ ! -f Gemfile ]; then echo \"Gemfile tidak ditemukan, upload dulu project Rails lu\"; fi\nbundle install",
+            "container": "ruby:3.3",
+            "entrypoint": "bash"
+        }
+    },
+    "variables": [
+        {
+            "name": "Server Port",
+            "description": "Port yang dikasih Pterodactyl",
+            "env_variable": "SERVER_PORT",
+            "default_value": "3000",
+            "user_viewable": true,
+            "user_editable": false,
+            "rules": "required|numeric"
+        },
+        {
+            "name": "Rails Env",
+            "description": "Environment Rails",
+            "env_variable": "RAILS_ENV",
+            "default_value": "production",
+            "user_viewable": true,
+            "user_editable": true,
+            "rules": "required|string|max:20"
+        }
+    ]
+}
